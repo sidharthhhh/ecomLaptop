@@ -1,7 +1,10 @@
 import CommonForm from "@/components/common/form";
 import { registerFormControls } from "@/config";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from '@/store/auth-slice'; 
+import { useToast } from "@/hooks/use-toast";
 
 const initialState = {
   userName:'',
@@ -12,10 +15,50 @@ const initialState = {
 function AuthRegister() {
 
   const [formData, setFormData] = useState(initialState);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  function onSubmit(e) {
+    e.preventDefault();
+    console.log('Form Data (direct):', formData);
+    
+    dispatch(registerUser(formData))
+      .then((data) => {
+        console.log('Registration Result:', data);
+        
+        if (data.payload) {
+          console.log('Payload structure:', Object.keys(data.payload));
+          
+          if (data.payload.success) {
+            console.log('Registration successful');
+            toast({
+              title: 'Registration successful',
+              description: 'You have successfully registered. Please login.',
+            });
+            navigate('/auth/login');
+          } else if (data.payload.message) {
+            console.log('Registration message:', data.payload.message);
+            // Here you might want to show this message to the user
+          } else {
+            console.log('Unexpected payload structure');
+          }
+        } else {
+          console.log('Payload is undefined');
+        }
 
-  function onSubmit(){
-
+        if (data.error) {
+          console.error('Error in response:', data.error);
+          // Here you might want to show an error message to the user
+        }
+      })
+      .catch((error) => {
+        console.error('Registration Error:', error);
+        // Here you might want to show a generic error message to the user
+      });
   }
+
+
   // console.log("hello")
   return <div className="mx-auto w-full max-w-md space-y-6">
     <div className="text-center">
@@ -35,7 +78,7 @@ function AuthRegister() {
         buttonText={'Sign up'}
         formData = {formData}
         setFormData={setFormData}
-        OnSubmit={onSubmit}
+        onSubmit={onSubmit}  // Changed 'OnSubmit' to 'onSubmit'
     />
   </div>;
 }

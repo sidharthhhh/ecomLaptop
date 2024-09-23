@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const app = express()
-
+const  authRouter = require("./routes/auth/auth-routes");
 
 mongoose
   .connect("mongodb://localhost:27017")
@@ -24,10 +24,12 @@ mongoose
       credentials: true,
     })
   );
+  
+  app.use(cookieParser());
+  app.use(express.json());
+  // app.use("/auth", authRoutes);
+  app.use("/api/auth", authRouter);
+  const PORT = process.env.PORT || 5000;
 
-app.use(cookieParser());
-app.use(express.json());
-
-const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));

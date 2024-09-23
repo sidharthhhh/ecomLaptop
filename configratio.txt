@@ -1,3 +1,7 @@
 npm i @reduxjs/toolkit react-redux axios react-router-dom 
 
 1.40
+
+//api/auth/register -> registerUser
+//api/auth/login -> loginUser
+
