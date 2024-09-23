@@ -5,3 +5,11 @@ npm i @reduxjs/toolkit react-redux axios react-router-dom
 //api/auth/register -> registerUser
 //api/auth/login -> loginUser
 
+
+create conteooler - routes - slice and create async tunk and call
+
+{
+  "userName": "testuser1",
+  "email": "testuser@example1.com",
+  "password": "password1231"
+}

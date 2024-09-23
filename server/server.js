@@ -29,6 +29,7 @@ mongoose
   app.use(express.json());
   // app.use("/auth", authRoutes);
   app.use("/api/auth", authRouter);
+  
   const PORT = process.env.PORT || 5000;
 
 

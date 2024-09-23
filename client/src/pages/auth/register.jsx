@@ -40,6 +40,11 @@ function AuthRegister() {
           } else if (data.payload.message) {
             console.log('Registration message:', data.payload.message);
             // Here you might want to show this message to the user
+            toast({
+              title: 'Registration failed',
+              description: data.payload.message,
+              variant: 'destructive',
+            });
           } else {
             console.log('Unexpected payload structure');
           }
